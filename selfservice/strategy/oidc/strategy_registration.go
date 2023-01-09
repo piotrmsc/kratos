@@ -199,6 +199,9 @@ func (s *Strategy) processRegistration(w http.ResponseWriter, r *http.Request, a
 		}
 		return nil, nil
 	}
+	s.d.Logger().WithRequest(r).WithField("provider", provider.Config().ID).
+		WithField("claims", claims).
+		Debug("Claims object from OIDC IDP ")
 
 	fetch := fetcher.NewFetcher(fetcher.WithClient(s.d.HTTPClient(r.Context())))
 	jn, err := fetch.Fetch(provider.Config().Mapper)
